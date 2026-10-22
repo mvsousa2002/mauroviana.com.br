@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Editwallas · Fotografia é arte.</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="img/logo-ew.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Editwallas · Fotografia é arte.">
+<meta property="og:description" content="Wallas, fotografia esportiva de futsal. São Paulo, Brasil.">
+<meta property="og:url" content="https://mauroviana.com.br/editwallas/">
+<meta property="og:image" content="https://mauroviana.com.br/editwallas/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Fotografia é arte. Fotografia esportiva de futsal por Wallas, São Paulo, Brasil.">
+<meta name="theme-color" content="#D6D2CB">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap">
+<style>
+/* Layout: um muro de São Paulo com figurinhas coladas, uma sessão de cinema no escuro em que as fotos se abrem uma
+   sobre a outra, o filme que vira álbum de figurinhas e a volta para o muro com os créditos em lambe-lambe. */
+:root{
+  --muro:#D6D2CB;      /* concreto */
+  --papel:#EFEBE3;     /* papel de lambe e de álbum */
+  --tinta:#121212;
+  --spray:#D6342B;     /* vermelho de spray */
+  --tela:#060606;      /* sala escura */
+  --cinza:#5F5B55;     /* texto de apoio no muro */
+  --cinza-tela:#8F8A83;/* texto de apoio no escuro */
+  --branco:#F3EFE8;
+  --f-titulo:'Bodoni Moda',Didot,'Bodoni 72','Times New Roman',serif;
+  --f-sans:'Jost','Futura','Century Gothic','Helvetica Neue',Arial,sans-serif;
+  --f-mono:'Courier Prime','Courier New',Courier,monospace;
+  --f-marca:'Permanent Marker','Marker Felt',cursive;
+  --f-estencil:'Saira Stencil One',Impact,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--muro)}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{background:var(--muro);color:var(--tinta);font:400 16px/1.5 var(--f-sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--spray);outline-offset:4px}
+.side{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.trk{font:500 11px/1.4 var(--f-sans);letter-spacing:.3em;text-transform:uppercase}
+
+/* textura de concreto */
+.muro{position:relative;background-color:var(--muro);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 -.12'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* topo */
+.hud{position:fixed;z-index:30;pointer-events:none;mix-blend-mode:difference;color:#fff}
+.hud-tl{top:calc(18px + env(safe-area-inset-top,0px));left:max(18px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:12px}
+.hud-tl img{height:26px;width:auto}
+.hud-tr{top:calc(24px + env(safe-area-inset-top,0px));right:max(18px,env(safe-area-inset-right,0px));font-variant-numeric:tabular-nums}
+@media (max-width:560px){.hud-tl span{display:none}}
+
+/* figurinhas */
+.adesivo{position:absolute;left:var(--x);top:var(--y);width:var(--w);z-index:2;filter:drop-shadow(0 7px 12px rgba(0,0,0,.22));
+  transform-origin:50% 50%;touch-action:auto;user-select:none;-webkit-user-select:none}
+.adesivo svg,.adesivo img{display:block;width:100%;height:auto}
+.arrasta .adesivo{cursor:grab;transition:filter .25s}
+.arrasta .adesivo:hover{filter:drop-shadow(0 12px 18px rgba(0,0,0,.26))}
+.arrasta .adesivo.pegando{cursor:grabbing;filter:drop-shadow(0 22px 26px rgba(0,0,0,.3));transition:none}
+.adesivo.pula{animation:pula .5s var(--ease)}
+@keyframes pula{30%{scale:1.08}60%{scale:.98}}
+@media (max-width:640px){.abertura .adesivo{left:var(--mx);top:var(--my);width:var(--mw)}}
+
+/* abertura no muro */
+.abertura{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:22px;overflow:hidden;padding-block:120px 140px}
+.abertura .conteudo{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:22px}
+.abertura .apresenta{margin:0;color:var(--cinza)}
+.abertura h1{margin:0;font:italic 400 clamp(58px,11.5vw,196px)/.9 var(--f-titulo);font-variation-settings:'opsz' 96;letter-spacing:-.02em;text-wrap:balance}
+.abertura h1 b{font-style:normal;font-weight:400}
+.abertura .sub{margin:0;color:var(--cinza)}
+.abertura .role{margin:0;position:absolute;bottom:calc(30px + env(safe-area-inset-bottom,0px));left:0;right:0;z-index:1;display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--cinza)}
+.abertura .role::after{content:"";width:1px;height:40px;background:linear-gradient(var(--tinta),transparent);animation:desce 2.2s var(--ease) infinite}
+.abertura .entra{animation:entra 1.2s var(--ease) both}
+.abertura .entra:nth-child(2){animation-delay:.12s}.abertura .entra:nth-child(3){animation-delay:.24s}
+@keyframes entra{from{opacity:0;transform:translateY(12px)}}
+@keyframes desce{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.dica{position:absolute;left:0;right:0;top:calc(76px + env(safe-area-inset-top,0px));text-align:center;color:var(--cinza);font:400 13px/1 var(--f-marca);letter-spacing:.02em;opacity:.8;z-index:1}
+.dica[hidden]{display:none}
+
+/* sessão de cinema */
+.filme{position:relative;background:var(--tela)}
+.palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--tela)}
+.camada{position:absolute;inset:0;clip-path:inset(50% 0 50% 0);will-change:clip-path;background:var(--tela)}
+.camada .amb{position:absolute;inset:-6%;width:112%;height:112%;max-width:none;object-fit:cover;opacity:.55}
+.quadro{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);height:100%;aspect-ratio:2/3;max-width:100%;overflow:hidden;box-shadow:0 0 140px 50px rgba(0,0,0,.6)}
+.quadro .foto{width:100%;height:100%;object-fit:cover;transform-origin:var(--fx) var(--fy);will-change:transform}
+@media (max-aspect-ratio:2/3){.quadro{left:0;right:0;transform:none;width:100%;aspect-ratio:auto}}
+.sombra{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+.abre-foto{all:unset;position:absolute;inset:0;z-index:3;cursor:zoom-in}
+
+/* álbum */
+.mosaico{position:absolute;inset:0;z-index:4;visibility:hidden;background:var(--tela)}
+.mosaico.ativo{visibility:visible}
+.grade{position:absolute;display:grid;transform-origin:0 0;will-change:transform;--e:0}
+.cel{all:unset;position:relative;cursor:zoom-in;background:#fff;padding:calc(var(--e) * 7px);
+  transform:rotate(calc(var(--r) * var(--e) * 1deg));box-shadow:0 6px 14px rgba(0,0,0,calc(var(--e) * .22));transition:opacity .4s}
+.cel-in{display:block;width:100%;height:100%;overflow:hidden;background:#111}
+.cel img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.cel .num{position:absolute;left:0;right:0;top:100%;margin-top:9px;text-align:center;font:700 11px/1 var(--f-mono);letter-spacing:.06em;color:var(--tinta);opacity:0;transition:opacity .5s;white-space:nowrap}
+.mosaico.pronto .cel .num{opacity:.8}
+.grade.curto .nm{display:none}
+.cel:focus-visible{outline:2px solid var(--spray);outline-offset:4px}
+.mosaico.pronto .cel:hover{transform:rotate(0deg) scale(1.05);z-index:2;transition:transform .35s var(--ease)}
+.album-cab{position:absolute;left:0;right:0;top:calc(62px + env(safe-area-inset-top,0px));text-align:center;opacity:0;transition:opacity .6s;pointer-events:none}
+.album-cab p{margin:0}
+.album-cab .t{font:italic 400 clamp(28px,3.4vw,46px)/1.05 var(--f-titulo)}
+.album-cab .trk{color:var(--cinza);margin-top:8px}
+.mosaico.pronto .album-cab{opacity:1}
+.mosaico-leg{position:absolute;left:0;right:0;bottom:calc(20px + env(safe-area-inset-bottom,0px));text-align:center;color:var(--cinza);opacity:0;transition:opacity .6s}
+.mosaico.pronto .mosaico-leg{opacity:1}
+
+/* muro de figurinhas */
+.muro-fig{padding-block:clamp(80px,10vw,140px) 60px}
+.muro-fig .cab{max-width:1200px;margin:0 auto 28px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px 32px}
+.muro-fig h2{margin:0;font:italic 400 clamp(44px,6vw,92px)/.95 var(--f-titulo);text-wrap:balance}
+.muro-fig .cab p{margin:0;color:var(--cinza);max-width:34ch;font-size:17px}
+.parede{position:relative;max-width:1200px;height:clamp(560px,46vw,640px);margin:0 auto}
+@media (max-width:760px){
+  .parede{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:26px 18px;align-items:center}
+  .parede .adesivo{position:relative;left:auto;top:auto;width:auto}
+  .parede .adesivo.largo{grid-column:1/-1}
+}
+
+/* créditos em lambe-lambe e contato */
+.fim-sec{padding-block:40px clamp(90px,10vw,150px)}
+.fim-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(48px,7vw,110px);align-items:center}
+.lambe{position:relative;background:var(--papel);padding:clamp(28px,4vw,52px);transform:rotate(-1.4deg);
+  box-shadow:0 2px 0 rgba(0,0,0,.04),0 18px 30px -18px rgba(0,0,0,.35);
+  background-image:linear-gradient(100deg,transparent 0 38%,rgba(0,0,0,.035) 38.3%,transparent 39% 71%,rgba(0,0,0,.03) 71.2%,transparent 72%),
+    linear-gradient(8deg,transparent 0 55%,rgba(255,255,255,.5) 55.2%,transparent 56%);
+  clip-path:polygon(0 1%,6% 0,14% .8%,27% .2%,41% 1%,55% 0,68% .9%,83% .1%,94% .7%,100% 0,99.4% 18%,100% 39%,99.3% 63%,100% 84%,99.5% 100%,85% 99.2%,71% 100%,57% 99.3%,42% 100%,28% 99.1%,13% 100%,0 99.4%,.6% 80%,0 57%,.7% 34%,0 14%)}
+.lambe .fim{margin:0;font:italic 400 clamp(84px,11vw,170px)/.85 var(--f-titulo);font-variation-settings:'opsz' 96}
+.lambe .tag{margin:6px 0 30px;font:400 clamp(26px,3vw,40px)/1 var(--f-estencil);color:var(--spray);letter-spacing:.02em}
+.cred{display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px 22px;margin:0;font:400 14px/1.4 var(--f-mono)}
+.cred dt{color:var(--cinza);text-transform:uppercase;letter-spacing:.06em}
+.cred dd{margin:0;text-transform:uppercase;letter-spacing:.04em}
+.cred a{text-decoration:none;border-bottom:1px solid currentColor}
+.lambe .carimbo{position:absolute;right:clamp(16px,4vw,40px);top:clamp(18px,3vw,34px);width:clamp(84px,9vw,110px);transform:rotate(-14deg);opacity:.85}
+.contato{display:flex;flex-direction:column;gap:30px;align-items:flex-start}
+.contato h2{margin:0;font:italic 400 clamp(42px,5vw,76px)/1 var(--f-titulo);text-wrap:balance}
+.contato p{margin:0;color:var(--cinza);font-size:17px;max-width:36ch}
+.botoes{display:flex;flex-wrap:wrap;gap:16px 20px;align-items:center}
+.btn-fig{display:block;width:clamp(230px,24vw,300px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.2));transition:transform .35s var(--ease),filter .35s}
+.btn-fig.i{width:clamp(200px,21vw,262px)}
+.btn-fig svg{display:block;width:100%;height:auto}
+.btn-fig:nth-child(1){transform:rotate(-3deg)}.btn-fig:nth-child(2){transform:rotate(2.5deg)}
+.btn-fig:hover{transform:rotate(0) scale(1.05);filter:drop-shadow(0 12px 16px rgba(0,0,0,.26))}
+.assina{color:var(--cinza);font:400 13px/1.5 var(--f-mono);letter-spacing:.04em}
+.assina a{color:var(--tinta);text-decoration:none;border-bottom:1px solid currentColor}
+@media (max-width:820px){.fim-in{grid-template-columns:1fr}}
+
+/* Wallas na abertura */
+.abertura{padding-block:110px 130px}
+.hero-grid{position:relative;z-index:1;width:min(1280px,100%);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);align-items:center;gap:clamp(16px,3vw,48px)}
+.abertura .conteudo{align-items:flex-start;text-align:left}
+.abertura h1{font-size:clamp(56px,8.6vw,164px)}
+.wallas{position:relative;margin:0;justify-self:center;animation:entra 1.3s var(--ease) .15s both}
+.wallas img{height:min(74vh,700px);width:auto;max-width:100%;filter:drop-shadow(0 12px 22px rgba(0,0,0,.25));transform:rotate(2.2deg);transition:transform .5s var(--ease),filter .5s}
+.wallas:hover img{transform:rotate(0) scale(1.015);filter:drop-shadow(0 18px 28px rgba(0,0,0,.28))}
+.rabisco{position:absolute;left:-8%;top:3%;display:flex;flex-direction:column;align-items:flex-start;gap:2px;transform:rotate(-6deg);pointer-events:none}
+.rabisco span{font:400 clamp(18px,1.6vw,24px)/1 var(--f-marca);color:var(--tinta)}
+.rabisco svg{width:clamp(70px,7vw,110px);height:auto;margin-left:40%}
+@media (max-width:760px){
+  .abertura{padding-block:92px 120px}
+  .hero-grid{grid-template-columns:1fr;gap:18px}
+  .wallas{order:-1}
+  .wallas img{height:auto;width:min(76vw,380px)}
+  .abertura .conteudo{align-items:center;text-align:center}
+  .rabisco{display:none}
+}
+@media (max-width:640px){.abertura .adesivo.so-desktop{display:none}}
+.contato{position:relative}
+.wallas-andando{position:absolute;right:-6px;top:-150px;width:clamp(170px,15vw,220px);height:auto;transform:rotate(5deg);filter:drop-shadow(0 8px 14px rgba(0,0,0,.22))}
+@media (max-width:820px){.wallas-andando{position:relative;top:auto;right:auto;align-self:flex-end;width:46%;max-width:220px;margin-bottom:-24px}}
+
+/* foto inteira */
+.lb{position:fixed;inset:0;z-index:100;background:#000;color:var(--branco);display:grid;place-items:center;padding:calc(64px + env(safe-area-inset-top,0px)) 16px calc(64px + env(safe-area-inset-bottom,0px))}
+.lb img{max-height:100%;max-width:100%;object-fit:contain;animation:lbIn .6s var(--ease)}
+@keyframes lbIn{from{opacity:0;transform:scale(.97)}}
+.lb-x{all:unset;position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));cursor:pointer;padding:10px 12px}
+.lb-nav{position:absolute;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;align-items:center;gap:22px;color:var(--cinza-tela)}
+.lb-nav button{all:unset;cursor:pointer;padding:10px 14px;color:var(--branco)}
+.lb button:focus-visible{outline:1px solid var(--branco)}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="hud hud-tl" aria-hidden="true"><img src="img/logo-ew.png" alt="" width="96" height="130"><span class="trk">Editwallas</span></div>
+<div class="hud hud-tr trk" id="hudN" aria-hidden="true"></div>
+
+<main>
+  <header class="abertura muro side">
+    <p class="dica" id="dica">arraste as figurinhas</p>
+    <div class="hero-grid">
+      <div class="conteudo">
+        <p class="apresenta trk entra">Editwallas apresenta</p>
+        <h1 class="entra"><b>Fotografia</b><br>é arte.</h1>
+        <p class="sub trk entra">Wallas · fotografia esportiva · São Paulo, Brasil</p>
+      </div>
+      <figure class="wallas">
+        <img src="img/fig-wallas.webp" alt="Wallas, o fotógrafo da Editwallas, sorrindo com a câmera nas mãos" width="914" height="1070" fetchpriority="high">
+        <figcaption class="rabisco" aria-hidden="true"><span>esse é o Wallas</span><svg viewBox="0 0 120 70"><path d="M6 14 C 40 4, 86 12, 104 52" fill="none" stroke="#121212" stroke-width="3.2" stroke-linecap="round"/><path d="M90 46 L105 55 L110 38" fill="none" stroke="#121212" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></figcaption>
+      </figure>
+    </div>
+    <div class="adesivo" data-rot="-8" style="--x:3%;--y:9%;--w:120px;--mx:3%;--my:5%;--mw:72px"><svg viewBox="-10 -10 340 400" role="img" aria-label="Selo Editwallas, fotografia esportiva">
+<circle cx="160" cy="160" r="160" fill="#fff"/><path d="M150,296 C151,318 147,334 147,352 A9,9 0 0 0 165,352 C165,334 161,318 162,296 Z" fill="#fff" stroke="#fff" stroke-width="26" stroke-linejoin="round"/>
+<circle cx="160" cy="160" r="146" fill="#121212"/><path d="M150,296 C151,318 147,334 147,352 A9,9 0 0 0 165,352 C165,334 161,318 162,296 Z" fill="#121212"/>
+<image href="img/logo-ew.png" x="119" y="52" width="82" height="111"/>
+<text x="160" y="206" text-anchor="middle" font-family="Jost,Futura,sans-serif" font-weight="500" font-size="17" letter-spacing="5.4" fill="#F3EFE8">EDITWALLAS</text>
+<text x="160" y="234" text-anchor="middle" font-family="'Courier Prime',monospace" font-size="13" letter-spacing="1.3" fill="#8F8A83">FOTOGRAFIA ESPORTIVA</text>
+</svg></div><div class="adesivo" data-rot="7" style="--x:85%;--y:7%;--w:160px;--mx:76%;--my:4%;--mw:82px"><svg viewBox="0 0 420 400" role="img" aria-label="Claquete: Editwallas, cena 03, tomada 1, fotografia Wallas">
+<rect width="420" height="400" rx="26" fill="#fff"/>
+<g transform="rotate(-9 16 92)"><rect x="16" y="52" width="388" height="40" rx="4" fill="#121212"/><polygon points="44,52 74,52 56,92 26,92" fill="#F3EFE8"/><polygon points="108,52 138,52 120,92 90,92" fill="#F3EFE8"/><polygon points="172,52 202,52 184,92 154,92" fill="#F3EFE8"/><polygon points="236,52 266,52 248,92 218,92" fill="#F3EFE8"/><polygon points="300,52 330,52 312,92 282,92" fill="#F3EFE8"/></g>
+<rect x="16" y="92" width="388" height="38" fill="#121212"/><polygon points="44,92 74,92 56,130 26,130" fill="#F3EFE8"/><polygon points="108,92 138,92 120,130 90,130" fill="#F3EFE8"/><polygon points="172,92 202,92 184,130 154,130" fill="#F3EFE8"/><polygon points="236,92 266,92 248,130 218,130" fill="#F3EFE8"/><polygon points="300,92 330,92 312,130 282,130" fill="#F3EFE8"/>
+<rect x="16" y="130" width="388" height="254" rx="8" fill="#121212"/>
+<rect x="30" y="222" width="360" height="2" fill="#F3EFE8" opacity=".6"/><rect x="30" y="300" width="360" height="2" fill="#F3EFE8" opacity=".6"/><rect x="209" y="224" width="2" height="76" fill="#F3EFE8" opacity=".6"/>
+<g font-family="'Courier Prime','Courier New',monospace" font-size="13" fill="#9A958E" letter-spacing="1"><text x="32" y="156">PRODUÇÃO</text><text x="32" y="246">CENA</text><text x="224" y="246">TOMADA</text><text x="32" y="324">FOTOGRAFIA</text></g>
+<g font-family="'Permanent Marker',cursive" fill="#F3EFE8"><text x="32" y="202" font-size="42">Editwallas</text><text x="32" y="290" font-size="42">03</text><text x="224" y="290" font-size="42">1</text><text x="32" y="366" font-size="34">Wallas</text></g>
+</svg></div><div class="adesivo" data-rot="-6" style="--x:31%;--y:71%;--w:210px;--mx:58%;--my:44%;--mw:132px"><svg viewBox="0 0 480 180" role="img" aria-label="Não click.">
+<defs><filter id="spray" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur stdDeviation="4"/></filter></defs>
+<rect width="480" height="180" rx="30" fill="#fff"/>
+<text x="246" y="124" text-anchor="middle" font-family="'Saira Stencil One',Impact,sans-serif" font-size="82" fill="#D6342B" opacity=".55" filter="url(#spray)">NÃO CLICK.</text>
+<text x="240" y="119" text-anchor="middle" font-family="'Saira Stencil One',Impact,sans-serif" font-size="82" fill="#121212">NÃO CLICK.</text>
+</svg></div><div class="adesivo so-desktop" data-rot="5" style="--x:3%;--y:75%;--w:260px;--mx:;--my:;--mw:"><svg viewBox="-20 -20 600 270" role="img" aria-label="Ingresso: Editwallas apresenta Fotografia é arte, sessão única">
+<path d="M14,0 H406 A14,14 0 0 0 434,0 H546 A14,14 0 0 1 560,14 V216 A14,14 0 0 1 546,230 H434 A14,14 0 0 0 406,230 H14 A14,14 0 0 1 0,216 V14 A14,14 0 0 1 14,0 Z" fill="#fff" stroke="#fff" stroke-width="28" stroke-linejoin="round"/><path d="M14,0 H406 A14,14 0 0 0 434,0 H546 A14,14 0 0 1 560,14 V216 A14,14 0 0 1 546,230 H434 A14,14 0 0 0 406,230 H14 A14,14 0 0 1 0,216 V14 A14,14 0 0 1 14,0 Z" fill="#EFE6D2"/>
+<rect x="12" y="12" width="382" height="206" rx="6" fill="none" stroke="#121212" stroke-width="1.4"/>
+<line x1="420" y1="20" x2="420" y2="210" stroke="#121212" stroke-width="2" stroke-dasharray="4 7"/>
+<text x="32" y="44" font-family="Jost,Futura,sans-serif" font-weight="500" font-size="12" letter-spacing="3.6" fill="#121212">EDITWALLAS APRESENTA</text>
+<text x="30" y="104" font-family="'Bodoni Moda',Didot,serif" font-style="italic" font-size="42" fill="#121212">Fotografia é arte.</text>
+<text x="32" y="184" font-family="'Courier Prime',monospace" font-size="13" letter-spacing=".6" fill="#121212">SESSÃO ÚNICA · QUADRA 1</text>
+<text transform="translate(452 115) rotate(90)" text-anchor="middle" font-family="Jost,Futura,sans-serif" font-weight="500" font-size="15" letter-spacing="4.5" fill="#121212">ENTRADA</text>
+<text transform="translate(500 115) rotate(90)" text-anchor="middle" font-family="'Courier Prime',monospace" font-weight="700" font-size="18" fill="#121212">Nº 0011</text>
+<g transform="rotate(-14 340 150)" opacity=".88"><circle cx="340" cy="150" r="50" fill="none" stroke="#D6342B" stroke-width="5"/><text x="340" y="172" text-anchor="middle" font-family="'Saira Stencil One',Impact,sans-serif" font-size="60" fill="#D6342B">EW</text></g>
+</svg></div><div class="adesivo so-desktop" data-rot="-4" style="--x:58%;--y:80%;--w:280px;--mx:;--my:;--mw:"><svg viewBox="-20 -22 520 150" role="img" aria-label="Fita de set escrita Futsal brasileiro">
+<path d="M8,10 L470,4 L476,16 L468,26 L478,38 L469,50 L477,62 L468,74 L476,86 L466,98 L8,104 L14,92 L4,80 L13,68 L3,56 L12,44 L2,32 L11,20 Z" fill="#fff" stroke="#fff" stroke-width="26" stroke-linejoin="round"/><path d="M8,10 L470,4 L476,16 L468,26 L478,38 L469,50 L477,62 L468,74 L476,86 L466,98 L8,104 L14,92 L4,80 L13,68 L3,56 L12,44 L2,32 L11,20 Z" fill="#2D2D2F"/>
+<path d="M10,30 L470,25 M10,54 L472,50 M10,78 L471,75" stroke="#fff" stroke-opacity=".06" stroke-width="3"/>
+<text x="44" y="68" transform="rotate(1.5 240 54)" font-family="'Permanent Marker',cursive" font-size="40" fill="#F3EFE8">Futsal brasileiro</text>
+</svg></div>
+    <p class="role trk">Role para a sessão começar</p>
+  </header>
+
+  <section class="filme" id="filme" aria-label="Sessão com as fotos">
+    <div class="palco">
+      <div class="camada" style="--fx:50%;--fy:49%">
+        <img class="amb" src="img/retrato-dreamer-amb.jpg" alt="" aria-hidden="true">
+        <div class="quadro"><img class="foto" src="img/retrato-dreamer-1200.jpg" srcset="img/retrato-dreamer-640.jpg 640w, img/retrato-dreamer-1200.jpg 1200w" sizes="(max-aspect-ratio:2/3) 100vw, 67vh" alt="Nuca suada de um atleta com a tatuagem Dreamer, na penumbra" width="1200" height="1800"></div>
+        <div class="sombra"></div>
+      </div>
+      <div class="camada" style="--fx:54%;--fy:46%">
+        <img class="amb" src="img/jogo-chuteira-amb.jpg" alt="" aria-hidden="true">
+        <div class="quadro"><img class="foto" src="img/jogo-chuteira-1200.jpg" srcset="img/jogo-chuteira-640.jpg 640w, img/jogo-chuteira-1200.jpg 1200w" sizes="(max-aspect-ratio:2/3) 100vw, 67vh" alt="Chuteira amarela e meião laranja rente ao piso da quadra" width="1200" height="1800"></div>
+        <div class="sombra"></div>
+      </div>
+      <div class="camada" style="--fx:45%;--fy:40%">
+        <img class="amb" src="img/jogo-11-amb.jpg" alt="" aria-hidden="true">
+        <div class="quadro"><img class="foto" src="img/jogo-11-1200.jpg" srcset="img/jogo-11-640.jpg 640w, img/jogo-11-1200.jpg 1200w" sizes="(max-aspect-ratio:2/3) 100vw, 67vh" alt="Jogador camisa 11 arrancando na quadra, com o ginásio borrado pelo movimento" loading="lazy" width="1200" height="1800"></div>
+        <div class="sombra"></div>
+      </div>
+      <div class="camada" style="--fx:45%;--fy:46%">
+        <img class="amb" src="img/jogo-2-amb.jpg" alt="" aria-hidden="true">
+        <div class="quadro"><img class="foto" src="img/jogo-2-1200.jpg" srcset="img/jogo-2-640.jpg 640w, img/jogo-2-1200.jpg 1200w" sizes="(max-aspect-ratio:2/3) 100vw, 67vh" alt="Jogador camisa 2 conduzindo a bola na quadra azul, com a arquibancada borrada" loading="lazy" width="1200" height="1800"></div>
+        <div class="sombra"></div>
+      </div>
+      <div class="camada" style="--fx:42%;--fy:44%">
+        <img class="amb" src="img/jogo-gesto-amb.jpg" alt="" aria-hidden="true">
+        <div class="quadro"><img class="foto" src="img/jogo-gesto-1200.jpg" srcset="img/jogo-gesto-640.jpg 640w, img/jogo-gesto-1200.jpg 1200w" sizes="(max-aspect-ratio:2/3) 100vw, 67vh" alt="Jogador abrindo a mão em reclamação, iluminado contra o fundo escuro" loading="lazy" width="1200" height="1800"></div>
+        <div class="sombra"></div>
+      </div>
+      <div class="camada" style="--fx:58%;--fy:43%">
+        <img class="amb" src="img/retrato-perfil-amb.jpg" alt="" aria-hidden="true">
+        <div class="quadro"><img class="foto" src="img/retrato-perfil-1200.jpg" srcset="img/retrato-perfil-640.jpg 640w, img/retrato-perfil-1200.jpg 1200w" sizes="(max-aspect-ratio:2/3) 100vw, 67vh" alt="Retrato de perfil de um atleta em preto e branco" loading="lazy" width="1200" height="1800"></div>
+        <div class="sombra"></div>
+      </div>
+      <div class="camada" style="--fx:50%;--fy:46%">
+        <img class="amb" src="img/titulo-medalha-7-amb.jpg" alt="" aria-hidden="true">
+        <div class="quadro"><img class="foto" src="img/titulo-medalha-7-1200.jpg" srcset="img/titulo-medalha-7-640.jpg 640w, img/titulo-medalha-7-1200.jpg 1200w" sizes="(max-aspect-ratio:2/3) 100vw, 67vh" alt="Jogador da Seleção Brasileira, camisa 7, mordendo a medalha" loading="lazy" width="1200" height="1800"></div>
+        <div class="sombra"></div>
+      </div>
+      <div class="camada" style="--fx:45%;--fy:52%">
+        <img class="amb" src="img/titulo-medalha-amb.jpg" alt="" aria-hidden="true">
+        <div class="quadro"><img class="foto" src="img/titulo-medalha-1200.jpg" srcset="img/titulo-medalha-640.jpg 640w, img/titulo-medalha-1200.jpg 1200w" sizes="(max-aspect-ratio:2/3) 100vw, 67vh" alt="Jogador da Seleção Brasileira sorrindo e mordendo a medalha" loading="lazy" width="1200" height="1800"></div>
+        <div class="sombra"></div>
+      </div>
+      <div class="camada" style="--fx:50%;--fy:46%">
+        <img class="amb" src="img/bastidor-entrevista-amb.jpg" alt="" aria-hidden="true">
+        <div class="quadro"><img class="foto" src="img/bastidor-entrevista-1200.jpg" srcset="img/bastidor-entrevista-640.jpg 640w, img/bastidor-entrevista-1200.jpg 1200w" sizes="(max-aspect-ratio:2/3) 100vw, 67vh" alt="Goleiro dando entrevista ao microfone da LNF TV, em preto e branco" loading="lazy" width="1200" height="1800"></div>
+        <div class="sombra"></div>
+      </div>
+      <button class="abre-foto" id="abreFoto" type="button" aria-label="Ver a foto inteira"></button>
+      <div class="mosaico" id="mosaico">
+        <div class="album-cab"><p class="t">Álbum de figurinhas</p><p class="trk">Editwallas · futsal brasileiro</p></div>
+        <div class="grade"><button class="cel" type="button" data-foto="jogo-11" style="--r:-2.5" aria-label="Figurinha 01, Camisa 11: ver a foto"><span class="cel-in"><img src="img/jogo-11-640.jpg" srcset="img/jogo-11-640.jpg 640w, img/jogo-11-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 01<span class="nm"> · Camisa 11</span></span></button><button class="cel" type="button" data-foto="jogo-chuteira" style="--r:1.8" aria-label="Figurinha 02, Chuteira: ver a foto"><span class="cel-in"><img src="img/jogo-chuteira-640.jpg" srcset="img/jogo-chuteira-640.jpg 640w, img/jogo-chuteira-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 02<span class="nm"> · Chuteira</span></span></button><button class="cel" type="button" data-foto="retrato-dreamer" style="--r:-1.2" aria-label="Figurinha 03, Dreamer: ver a foto"><span class="cel-in"><img src="img/retrato-dreamer-640.jpg" srcset="img/retrato-dreamer-640.jpg 640w, img/retrato-dreamer-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 03<span class="nm"> · Dreamer</span></span></button><button class="cel" type="button" data-foto="jogo-gesto" style="--r:2.6" aria-label="Figurinha 04, O lance: ver a foto"><span class="cel-in"><img src="img/jogo-gesto-640.jpg" srcset="img/jogo-gesto-640.jpg 640w, img/jogo-gesto-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 04<span class="nm"> · O lance</span></span></button><button class="cel" type="button" data-foto="jogo-2" style="--r:-1.8" aria-label="Figurinha 05, Camisa 2: ver a foto"><span class="cel-in"><img src="img/jogo-2-640.jpg" srcset="img/jogo-2-640.jpg 640w, img/jogo-2-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 05<span class="nm"> · Camisa 2</span></span></button><button class="cel" type="button" data-foto="retrato-perfil" style="--r:1.4" aria-label="Figurinha 06, Perfil: ver a foto"><span class="cel-in"><img src="img/retrato-perfil-640.jpg" srcset="img/retrato-perfil-640.jpg 640w, img/retrato-perfil-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 06<span class="nm"> · Perfil</span></span></button><button class="cel" type="button" data-foto="titulo-medalha-7" style="--r:-2.2" aria-label="Figurinha 07, Camisa 7: ver a foto"><span class="cel-in"><img src="img/titulo-medalha-7-640.jpg" srcset="img/titulo-medalha-7-640.jpg 640w, img/titulo-medalha-7-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 07<span class="nm"> · Camisa 7</span></span></button><button class="cel" type="button" data-foto="bastidor-entrevista" style="--r:0.0" aria-label="Figurinha 08, Entrevista: ver a foto"><span class="cel-in"><img src="img/bastidor-entrevista-640.jpg" srcset="img/bastidor-entrevista-640.jpg 640w, img/bastidor-entrevista-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 08<span class="nm"> · Entrevista</span></span></button><button class="cel" type="button" data-foto="titulo-medalha" style="--r:2.0" aria-label="Figurinha 09, A medalha: ver a foto"><span class="cel-in"><img src="img/titulo-medalha-640.jpg" srcset="img/titulo-medalha-640.jpg 640w, img/titulo-medalha-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 09<span class="nm"> · A medalha</span></span></button><button class="cel" type="button" data-foto="marca-shark" style="--r:-1.5" aria-label="Figurinha 10, Tubarão: ver a foto"><span class="cel-in"><img src="img/marca-shark-640.jpg" srcset="img/marca-shark-640.jpg 640w, img/marca-shark-1200.jpg 1200w" sizes="40vh" alt="" loading="lazy" width="640" height="960"></span><span class="num">Nº 10<span class="nm"> · Tubarão</span></span></button></div>
+        <p class="mosaico-leg trk">Toque numa figurinha para ver a foto</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="muro-fig muro side" aria-labelledby="fig-t">
+    <div class="cab"><h2 id="fig-t">Figurinhas repetidas.</h2><p>Os atletas viraram figurinha. No computador, dá para arrastar e colar onde quiser.</p></div>
+    <div class="parede"><div class="adesivo" data-rot="-4" style="--x:2%;--y:4%;--w:250px;--mx:;--my:;--mw:"><img src="img/fig-camisa11.webp" alt="Figurinha recortada do jogador camisa 11 correndo" draggable="false" loading="lazy"></div><div class="adesivo" data-rot="3" style="--x:26%;--y:0%;--w:240px;--mx:;--my:;--mw:"><img src="img/fig-medalha.webp" alt="Figurinha do jogador da Seleção mordendo a medalha" draggable="false" loading="lazy"></div><div class="adesivo" data-rot="-3" style="--x:50%;--y:3%;--w:280px;--mx:;--my:;--mw:"><img src="img/fig-perfil-spray.webp" alt="Figurinha em estêncil de um perfil sobre círculo vermelho de spray" draggable="false" loading="lazy"></div><div class="adesivo" data-rot="6" style="--x:74%;--y:30%;--w:270px;--mx:;--my:;--mw:"><img src="img/fig-chuteira.webp" alt="Figurinha da chuteira amarela com meião" draggable="false" loading="lazy"></div><div class="adesivo" data-rot="4" style="--x:6%;--y:50%;--w:190px;--mx:;--my:;--mw:"><img src="img/fig-camisa2-estencil.webp" alt="Figurinha em estêncil do jogador camisa 2 com a bola" draggable="false" loading="lazy"></div><div class="adesivo largo" data-rot="-2" style="--x:28%;--y:50%;--w:380px;--mx:;--my:;--mw:"><svg viewBox="0 0 604 454" role="img" aria-label="Fotograma de película com o jogador camisa 2">
+<rect width="604" height="454" rx="22" fill="#fff"/><rect x="16" y="14" width="572" height="426" rx="4" fill="#141414"/><rect x="34" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="34" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="68" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="68" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="102" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="102" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="136" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="136" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="170" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="170" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="204" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="204" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="238" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="238" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="272" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="272" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="306" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="306" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="340" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="340" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="374" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="374" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="408" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="408" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="442" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="442" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="476" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="476" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="510" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="510" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="544" y="26" width="18" height="13" rx="3" fill="#D9D5CE"/><rect x="544" y="414" width="18" height="13" rx="3" fill="#D9D5CE"/>
+<image href="img/fotograma-2.jpg" x="44" y="58" width="516" height="344" preserveAspectRatio="xMidYMid slice"/>
+<g font-family="'Courier Prime',monospace" font-weight="700" font-size="11" fill="#E2A13A" letter-spacing="1.1"><text x="46" y="53">EW 400</text><text x="510" y="53">▸ 13A</text><text x="46" y="412">EDITWALLAS</text></g>
+</svg></div></div>
+  </section>
+
+  <section class="fim-sec muro side" aria-label="Créditos e contato">
+    <div class="fim-in">
+      <div class="lambe">
+        <p class="fim">Fim.</p>
+        <p class="tag">NÃO CLICK.</p>
+        <dl class="cred">
+          <dt>Fotografia</dt><dd>Wallas</dd>
+          <dt>Edição e cor</dt><dd>Wallas</dd>
+          <dt>Elenco</dt><dd>Os atletas do futsal brasileiro</dd>
+          <dt>Locações</dt><dd>Ginásios de São Paulo e do Brasil</dd>
+          <dt>Produção</dt><dd>Editwallas</dd>
+          <dt>Site</dt><dd><a href="https://mauroviana.com.br" target="_blank" rel="noopener">Mauro Viana</a></dd>
+        </dl>
+        <svg class="carimbo" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="#D6342B" stroke-width="5"/><text x="60" y="82" text-anchor="middle" font-family="'Saira Stencil One',Impact,sans-serif" font-size="62" fill="#D6342B">EW</text></svg>
+      </div>
+      <div class="contato">
+        <img class="wallas-andando" src="img/fig-wallas-andando.webp" alt="Wallas andando pela quadra com a câmera" width="499" height="682" loading="lazy">
+        <p class="trk" style="color:var(--cinza);margin:0">Próxima sessão</p>
+        <h2>O seu jogo pode ser o próximo filme.</h2>
+        <p>Jogo, campeonato, ensaio de atleta ou campanha. Me chama e a gente marca.</p>
+        <div class="botoes">
+          <a class="btn-fig" href="https://wa.me/5511961097707?text=Ol%C3%A1%2C%20Wallas!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20falar%20sobre%20fotos." target="_blank" rel="noopener" aria-label="Chama no WhatsApp"><svg viewBox="0 0 380 120" aria-hidden="true"><rect width="380" height="120" rx="60" fill="#fff"/><rect x="9" y="9" width="362" height="102" rx="51" fill="#121212"/>
+<circle cx="66" cy="60" r="8" fill="#D6342B"/>
+<text x="210" y="70" text-anchor="middle" font-family="Jost,Futura,sans-serif" font-weight="500" font-size="27" fill="#F3EFE8">Chama no WhatsApp</text></svg></a>
+          <a class="btn-fig i" href="https://instagram.com/editwallas" target="_blank" rel="noopener" aria-label="Instagram @editwallas"><svg viewBox="0 0 330 120" aria-hidden="true"><rect width="330" height="120" rx="60" fill="#fff"/><rect x="9" y="9" width="312" height="102" rx="51" fill="#D6342B"/>
+<text x="165" y="74" text-anchor="middle" font-family="'Permanent Marker',cursive" font-size="34" fill="#fff">@editwallas</text></svg></a>
+        </div>
+        <p class="assina">© 2026 Editwallas · São Paulo, Brasil<br>Site por <a href="https://mauroviana.com.br" target="_blank" rel="noopener">Mauro Viana</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto inteira" hidden>
+  <img id="lbImg" alt="">
+  <button type="button" id="lbX" class="lb-x trk">Fechar</button>
+  <div class="lb-nav"><button type="button" id="lbP" class="trk" aria-label="Foto anterior">←</button><span class="trk" id="lbN">1 / 10</span><button type="button" id="lbS" class="trk" aria-label="Próxima foto">→</button></div>
+</div>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fino = window.matchMedia('(pointer: fine)').matches;
+  var root = document.documentElement;
+  var TODAS = [["jogo-11", "Jogador camisa 11 arrancando na quadra, com o ginásio borrado pelo movimento"], ["jogo-chuteira", "Chuteira amarela e meião laranja rente ao piso da quadra"], ["retrato-dreamer", "Nuca suada de um atleta com a tatuagem Dreamer, na penumbra"], ["jogo-gesto", "Jogador abrindo a mão em reclamação, iluminado contra o fundo escuro"], ["jogo-2", "Jogador camisa 2 conduzindo a bola na quadra azul, com a arquibancada borrada"], ["retrato-perfil", "Retrato de perfil de um atleta em preto e branco"], ["titulo-medalha-7", "Jogador da Seleção Brasileira, camisa 7, mordendo a medalha"], ["bastidor-entrevista", "Goleiro dando entrevista ao microfone da LNF TV, em preto e branco"], ["titulo-medalha", "Jogador da Seleção Brasileira sorrindo e mordendo a medalha"], ["marca-shark", "Kit Shark Attack fotografado de cima: tênis, caixa com dentes de tubarão, pôster e adesivos"]], ULTIMA = 'bastidor-entrevista';
+
+  var lenis = null;
+  if (window.Lenis && !reduz) { try { lenis = new Lenis({ lerp: .085, smoothWheel: true }); } catch (e) { lenis = null; } }
+
+  /* ---------- figurinhas arrastáveis ---------- */
+  var z = 10;
+  if (fino && !reduz) root.classList.add('arrasta'); else { var d = document.getElementById('dica'); if (d) d.hidden = true; }
+  document.querySelectorAll('.adesivo').forEach(function(el){
+    var rot = parseFloat(el.getAttribute('data-rot')) || 0, dx = 0, dy = 0;
+    function pos(extra){ el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg)' + (extra || ''); }
+    pos();
+    if (!(fino && !reduz)) {
+      el.addEventListener('click', function(){ el.classList.remove('pula'); void el.offsetWidth; el.classList.add('pula'); });
+      return;
+    }
+    el.addEventListener('pointerdown', function(e){
+      if (e.button !== 0) return;
+      e.preventDefault();
+      el.setPointerCapture(e.pointerId);
+      var sx = e.clientX - dx, sy = e.clientY - dy;
+      el.classList.add('pegando'); el.style.zIndex = ++z; pos(' scale(1.06)');
+      var dica = document.getElementById('dica'); if (dica) dica.hidden = true;
+      function mv(ev){ dx = ev.clientX - sx; dy = ev.clientY - sy; pos(' scale(1.06)'); }
+      function solta(){
+        el.classList.remove('pegando'); rot = Math.max(-12, Math.min(12, rot + (Math.random() - .5) * 6)); pos();
+        el.removeEventListener('pointermove', mv); el.removeEventListener('pointerup', solta); el.removeEventListener('pointercancel', solta);
+      }
+      el.addEventListener('pointermove', mv); el.addEventListener('pointerup', solta); el.addEventListener('pointercancel', solta);
+    });
+  });
+
+  /* ---------- sessão + álbum ---------- */
+  var filme = document.getElementById('filme'), palco = filme.querySelector('.palco');
+  var camadas = [].slice.call(filme.querySelectorAll('.camada')).map(function(el){
+    return { el: el, foto: el.querySelector('.foto'), amb: el.querySelector('.amb'), sombra: el.querySelector('.sombra') };
+  });
+  var N = camadas.length;
+  var mosaico = document.getElementById('mosaico'), grade = mosaico.querySelector('.grade'), cels = [].slice.call(grade.querySelectorAll('.cel'));
+  var alvoIdx = cels.findIndex(function(c){ return c.getAttribute('data-foto') === ULTIMA; });
+  var hud = document.getElementById('hudN');
+  var vh, vw, seg, D1, D2, topo, G = {};
+  var TELA = [6, 6, 6], PAPEL = [239, 235, 227];
+  function lim(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function suave(t){ return 1 - Math.pow(1 - t, 3); }
+  function suave2(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function mistura(a, b, k){ return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * k) + ',' + Math.round(a[1] + (b[1] - a[1]) * k) + ',' + Math.round(a[2] + (b[2] - a[2]) * k) + ')'; }
+
+  function layoutGrade(){
+    var padX = Math.max(24, vw * .06), padTop = Math.max(130, vh * .2), padBot = Math.max(70, vh * .11);
+    var gapX = Math.max(10, Math.min(22, vw * .014)), gapY = gapX + 30;
+    var melhor = null;
+    [2, 3, 4, 5].forEach(function(cols){
+      var rows = Math.ceil(10 / cols);
+      var h = Math.min((vh - padTop - padBot - gapY * (rows - 1)) / rows, ((vw - padX * 2 - gapX * (cols - 1)) / cols) * 1.5);
+      if (!melhor || h > melhor.h) melhor = { cols: cols, rows: rows, h: h };
+    });
+    var w = melhor.h / 1.5;
+    grade.classList.toggle('curto', w < 130);
+    grade.style.gridTemplateColumns = 'repeat(' + melhor.cols + ',' + w.toFixed(1) + 'px)';
+    grade.style.gridAutoRows = melhor.h.toFixed(1) + 'px';
+    grade.style.columnGap = gapX + 'px'; grade.style.rowGap = gapY + 'px';
+    var gw = melhor.cols * w + gapX * (melhor.cols - 1), gh = melhor.rows * melhor.h + gapY * (melhor.rows - 1);
+    G.x = (vw - gw) / 2; G.y = padTop + ((vh - padTop - padBot) - gh) / 2;
+    grade.style.left = G.x + 'px'; grade.style.top = G.y + 'px';
+    var resto = 10 % melhor.cols;
+    cels.forEach(function(c){ c.style.gridColumnStart = ''; });
+    if (resto) cels[10 - resto].style.gridColumnStart = Math.floor((melhor.cols - resto) / 2) + 1;
+    var col, row, idx = alvoIdx;
+    if (resto && idx >= 10 - resto) { row = melhor.rows - 1; col = Math.floor((melhor.cols - resto) / 2) + (idx - (10 - resto)); }
+    else { row = Math.floor(idx / melhor.cols); col = idx % melhor.cols; }
+    G.cx = col * (w + gapX) + w / 2; G.cy = row * (melhor.h + gapY) + melhor.h / 2;
+    G.S = vh / melhor.h;
+  }
+
+  function medir(){
+    vh = palco.clientHeight || window.innerHeight; vw = window.innerWidth;
+    seg = vh * 1.1; D1 = seg * N; D2 = vh * 2;
+    filme.style.height = (D1 + D2 + vh) + 'px';
+    topo = filme.getBoundingClientRect().top + window.scrollY;
+    layoutGrade(); ultimoY = -1; desenhar(true);
+  }
+
+  var ultimoY = -1;
+  function desenhar(forca){
+    var y = window.scrollY;
+    if (!forca && y === ultimoY) return;
+    ultimoY = y;
+    var d = y - topo, u = d / seg;
+    for (var i = 0; i < N; i++) {
+      var c = camadas[i], local = u - i;
+      if (local < -.05 && i > 0) { if (c.vis !== false) { c.el.style.clipPath = 'inset(50% 0 50% 0)'; c.vis = false; } continue; }
+      c.vis = true;
+      var abre = reduz ? (local >= 0 ? 1 : 0) : suave2(lim(local / .55));
+      var segura = (i === N - 1 || reduz) ? 0 : lim((local - .55) / .45);
+      var cobre = (i < N - 1 && !reduz) ? suave(lim((u - i - 1) / .55)) : 0;
+      var T = 50 * (1 - abre);
+      c.el.style.clipPath = 'inset(' + T.toFixed(3) + '% 0 ' + T.toFixed(3) + '% 0)';
+      c.foto.style.transform = 'scale(' + (1.14 - .14 * abre + .025 * segura - .06 * cobre).toFixed(4) + ')';
+      c.sombra.style.opacity = (cobre * .55).toFixed(3);
+      if (i === N - 1) c.amb.style.opacity = (.55 * (1 - lim((u - N + .45) / .4))).toFixed(3);
+    }
+    var m = (d - D1) / D2;
+    if (m >= 0) {
+      if (!mosaico.classList.contains('ativo')) mosaico.classList.add('ativo');
+      var e = reduz ? 1 : suave2(lim(m / .75));
+      var s2 = G.S + (1 - G.S) * e;
+      var a = (vw / 2 - G.x - G.S * G.cx) * (1 - e), b = (vh / 2 - G.y - G.S * G.cy) * (1 - e);
+      grade.style.transform = 'translate3d(' + a.toFixed(2) + 'px,' + b.toFixed(2) + 'px,0) scale(' + s2.toFixed(4) + ')';
+      var k = lim((e - .5) / .5);
+      grade.style.setProperty('--e', k.toFixed(3));
+      mosaico.style.backgroundColor = mistura(TELA, PAPEL, k);
+      var o = lim(e / .45);
+      cels.forEach(function(cel, j){ cel.style.opacity = j === alvoIdx ? 1 : o.toFixed(3); });
+      mosaico.classList.toggle('pronto', e > .98);
+      camadas[N - 1].el.style.visibility = 'hidden';
+      hud.textContent = 'Álbum';
+    } else {
+      if (mosaico.classList.contains('ativo')) { mosaico.classList.remove('ativo', 'pronto'); camadas[N - 1].el.style.visibility = ''; }
+      var n = Math.max(1, Math.min(N, Math.floor(u + .45) + 1));
+      hud.textContent = (d < -vh * .3) ? '' : ((n < 10 ? '0' : '') + n + ' / 10');
+    }
+    if (d > D1 + D2 + vh * .4) hud.textContent = '';
+  }
+
+  function loop(t){ if (lenis) lenis.raf(t); desenhar(false); requestAnimationFrame(loop); }
+  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(medir, 120); });
+  window.addEventListener('load', medir);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(medir);
+  medir();
+  requestAnimationFrame(loop);
+
+  /* ---------- foto inteira ---------- */
+  var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lbN = document.getElementById('lbN'), atual = 0, volta = null;
+  function mostrar(i){
+    atual = (i + TODAS.length) % TODAS.length;
+    lbImg.src = 'img/' + TODAS[atual][0] + '-1200.jpg'; lbImg.alt = TODAS[atual][1];
+    lbN.textContent = (atual + 1) + ' / ' + TODAS.length;
+    lbImg.style.animation = 'none'; void lbImg.offsetWidth; lbImg.style.animation = '';
+  }
+  function abrir(nome, de){
+    volta = de; var i = TODAS.findIndex(function(t){ return t[0] === nome; });
+    mostrar(i < 0 ? 0 : i); lb.hidden = false; if (lenis) lenis.stop(); root.style.overflow = 'hidden';
+    document.getElementById('lbX').focus();
+  }
+  function fechar(){ lb.hidden = true; if (lenis) lenis.start(); root.style.overflow = ''; if (volta) volta.focus({preventScroll:true}); }
+  cels.forEach(function(c){ c.addEventListener('click', function(){ abrir(c.getAttribute('data-foto'), c); }); });
+  document.getElementById('abreFoto').addEventListener('click', function(e){
+    var u = (window.scrollY - topo) / seg, i = Math.max(0, Math.min(N - 1, Math.round(u - .3)));
+    abrir(camadas[i].foto.getAttribute('src').replace('img/', '').replace('-1200.jpg', ''), e.currentTarget);
+  });
+  document.getElementById('lbX').addEventListener('click', fechar);
+  document.getElementById('lbP').addEventListener('click', function(){ mostrar(atual - 1); });
+  document.getElementById('lbS').addEventListener('click', function(){ mostrar(atual + 1); });
+  lb.addEventListener('click', function(e){ if (e.target === lb) fechar(); });
+  document.addEventListener('keydown', function(e){
+    if (lb.hidden) return;
+    if (e.key === 'Escape') fechar(); else if (e.key === 'ArrowRight') mostrar(atual + 1); else if (e.key === 'ArrowLeft') mostrar(atual - 1);
+  });
+  var tx = null;
+  lb.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', function(e){ if (tx === null) return; var dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 50) mostrar(atual + (dx < 0 ? 1 : -1)); });
+})();
+</script>
+
+</html>
